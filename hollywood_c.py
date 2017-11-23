@@ -24,16 +24,23 @@ def get_temporal(video, T):
                 temporal_features[i, :, :, :] = frame
         return resnet.predict(temporal_features).mean(0).ravel()
 
+def vectorise_video(video):
+        v_video = np.zeros((video.shape[1] * video.shape[2] * video.shape[3], video.shape[0]))
+        for i in range(video.shape[0]):
+                v_video[:, i] = video[i, :, :, :].ravel()
+        return v_video
+
 resnet = ResNet50(include_top=False)
 s = (224, 224)
 
 actions = glob('../Datasets/Hollywood2/Hollywood2/Files/*')
-xtrain = np.zeros((0, 4096))
+B = 200
+xtrain = np.zeros((0, 4096 + B))
 ytrain = []
-xtest = np.zeros((0, 4096))
+xtest = np.zeros((0, 4096 + B))
 ytest = []
 T = 1
-K = 100
+K = 500
 c = 0
 for action in actions:
 	files = glob(action + '/*.npy')
@@ -43,7 +50,11 @@ for action in actions:
 			video_sampled = video[np.round(np.linspace(0, video.shape[0] - 1, K)).astype('int'), :, :, :]
 			spatial_feature = get_spatial(video_sampled)
 			temporal_feature = get_temporal(video_sampled, T)
-			video_feature = np.hstack((spatial_feature, temporal_feature))
+
+			vid_cov = np.cov(vectorise_video(video_sampled).T)
+		        cov_feat = np.histogram(vid_cov.ravel(), bins=B)[0]
+
+			video_feature = np.hstack((spatial_feature, temporal_feature, cov_feat))
 			a = get_action(f)
 			if 'train' in f:
 				xtrain = np.vstack((xtrain, video_feature))
