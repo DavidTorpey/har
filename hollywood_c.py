@@ -40,7 +40,7 @@ ytrain = []
 xtest = np.zeros((0, 4096 + B))
 ytest = []
 T = 1
-K = 500
+K = 200
 c = 0
 for action in actions:
 	files = glob(action + '/*.npy')
