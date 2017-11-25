@@ -3,6 +3,7 @@ from sklearn.svm import SVC
 from sklearn.cross_validation import train_test_split
 from glob import glob
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.metrics import confusion_matrix, classification_report
 
 def get_person(f):
         temp = f.split('/')[-1]
@@ -29,8 +30,7 @@ all_people = np.array([get_person(e) for e in files])
 people = np.unique(all_people)
 
 accs = []
-
-for i in range(50):
+for i in range(10):
 	train_idx, test_idx = get_indices(people, all_people)
 	xtrain = X[train_idx, :]
 	ytrain = Y[train_idx]
@@ -46,6 +46,11 @@ for i in range(50):
 	
 	svm = SVC(kernel='linear').fit(xtrain, ytrain)
 	acc = svm.score(xtest, ytest)
+	
+	preds = svm.predict(xtest)
+	print confusion_matrix(ytest, preds)
+	print classification_report(ytest, preds)
+
 	print acc
 	accs.append(acc)
 print np.array(accs).mean()

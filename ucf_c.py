@@ -33,12 +33,12 @@ def vectorise_video(video):
 resnet = ResNet50(include_top=False)
 s = (224, 224)
 files = glob('../Datasets/UCF Sports/Raw Videos/ucf_sports_actions/ucf action/allvids/*.npy')
-B = 500
+B = 250
 X = np.zeros((len(files), 4096 + B))
 T = 1
 K = 50
 for i, f in enumerate(files):
-	print i
+	print i, f
 	video = np.load(open(f))['array1']
 	video_sampled = video[:, :, :, np.round(np.linspace(0, video.shape[-1] - 1, K)).astype('int')]
 
