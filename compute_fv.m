@@ -13,11 +13,11 @@ function [X] = compute_fv(fold_num, fs, s, traj_means, traj_covariances, traj_pr
         mbhx = data(:, 235:330);
         mbhy = data(:, 331:end);
         
-        traj_fv = vl_fisher(traj', traj_means, traj_covariances, traj_priors);
-        hog_fv = vl_fisher(hog', hog_means, hog_covariances, hog_priors);
-        hof_fv = vl_fisher(hof', hof_means, hof_covariances, hof_priors);
-        mbhx_fv = vl_fisher(mbhx', mbhx_means, mbhx_covariances, mbhx_priors);
-        mbhy_fv = vl_fisher(mbhy', mbhy_means, mbhy_covariances, mbhy_priors);
+        traj_fv = powernorm(vl_fisher(traj', traj_means, traj_covariances, traj_priors));
+        hog_fv = powernorm(vl_fisher(hog', hog_means, hog_covariances, hog_priors));
+        hof_fv = powernorm(vl_fisher(hof', hof_means, hof_covariances, hof_priors));
+        mbhx_fv = powernorm(vl_fisher(mbhx', mbhx_means, mbhx_covariances, mbhx_priors));
+        mbhy_fv = powernorm(vl_fisher(mbhy', mbhy_means, mbhy_covariances, mbhy_priors));
         
         encoding = [traj_fv; hog_fv; hof_fv; mbhx_fv; mbhy_fv];
         
