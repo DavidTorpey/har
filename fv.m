@@ -17,11 +17,11 @@ for i = 1:N
     
     [X_traj, X_hog, X_hof, X_mbhx, X_mbhy] = gen_feat_mat(i, train_files);
     
-    [traj_means, traj_covariances, traj_priors] = compute_gmm(X_traj, 128);
-    [hog_means, hog_covariances, hog_priors] = compute_gmm(X_hog, 128);
-    [hof_means, hof_covariances, hof_priors] = compute_gmm(X_hof, 128);
-    [mbhx_means, mbhx_covariances, mbhx_priors] = compute_gmm(X_mbhx, 128);
-    [mbhy_means, mbhy_covariances, mbhy_priors] = compute_gmm(X_mbhy, 128);
+    [traj_means, traj_covariances, traj_priors] = compute_gmm(X_traj, 256);
+    [hog_means, hog_covariances, hog_priors] = compute_gmm(X_hog, 256);
+    [hof_means, hof_covariances, hof_priors] = compute_gmm(X_hof, 256);
+    [mbhx_means, mbhx_covariances, mbhx_priors] = compute_gmm(X_mbhx, 256);
+    [mbhy_means, mbhy_covariances, mbhy_priors] = compute_gmm(X_mbhy, 256);
     
     compute_fv(i, train_files, 'train', traj_means, traj_covariances, traj_priors, hog_means, hog_covariances, hog_priors, hof_means, hof_covariances, hof_priors, mbhx_means, mbhx_covariances, mbhx_priors, mbhy_means, mbhy_covariances, mbhy_priors);
 
