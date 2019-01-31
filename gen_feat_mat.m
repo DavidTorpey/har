@@ -1,4 +1,4 @@
-function [X_traj, X_hog, X_hof, X_mbhx, X_mbhy] = gen_feat_mat(fold_num, fs)
+function [X_traj, X_hog, X_hof, X_mbhx, X_mbhy, traj_coeff, hog_coeff, hof_coeff, mbhx_coeff, mbhy_coeff] = gen_feat_mat(fold_num, fs)
 
     X_traj = [];
     X_hog = [];
@@ -18,11 +18,17 @@ function [X_traj, X_hog, X_hof, X_mbhx, X_mbhy] = gen_feat_mat(fold_num, fs)
         mbhx = rootsift(X_s(:, 235:330));
         mbhy = rootsift(X_s(:, 331:end));
         
-        traj = perform_pca(traj, 15);
-        hog = perform_pca(hog, 48);
-        hof = perform_pca(hof, 54);
-        mbhx = perform_pca(mbhx, 48);
-        mbhy = perform_pca(mbhy, 48);
+        traj_coeff = perform_pca(traj, 15);
+        hog_coeff = perform_pca(hog, 48);
+        hof_coeff = perform_pca(hof, 54);
+        mbhx_coeff = perform_pca(mbhx, 48);
+        mbhy_coeff = perform_pca(mbhy, 48);
+        
+        traj = traj * traj_coeff;
+        hog = hog * hog_coeff;
+        hof = hof * hof_coeff;
+        mbhx = mbhx * mbhx_coeff;
+        mbhy = mbhy * mbhy_coeff;
 
         X_traj = [X_traj; traj];
         X_hog = [X_hog; hog];

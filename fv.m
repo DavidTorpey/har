@@ -15,7 +15,7 @@ for i = 1:N
     test_files = fns(test_idx);
     train_files = fns(train_idx);
     
-    [X_traj, X_hog, X_hof, X_mbhx, X_mbhy] = gen_feat_mat(i, train_files);
+    [X_traj, X_hog, X_hof, X_mbhx, X_mbhy, traj_coeff, hog_coeff, hof_coeff, mbhx_coeff, mbhy_coeff] = gen_feat_mat(i, train_files);
     
     [traj_means, traj_covariances, traj_priors] = compute_gmm(X_traj, 256);
     [hog_means, hog_covariances, hog_priors] = compute_gmm(X_hog, 256);

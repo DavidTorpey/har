@@ -1,4 +1,4 @@
-function [X] = compute_fv(fold_num, fs, s, traj_means, traj_covariances, traj_priors, hog_means, hog_covariances, hog_priors, hof_means, hof_covariances, hof_priors, mbhx_means, mbhx_covariances, mbhx_priors, mbhy_means, mbhy_covariances, mbhy_priors)
+function [X] = compute_fv(fold_num, fs, s, traj_means, traj_covariances, traj_priors, hog_means, hog_covariances, hog_priors, hof_means, hof_covariances, hof_priors, mbhx_means, mbhx_covariances, mbhx_priors, mbhy_means, mbhy_covariances, mbhy_priors, traj_coeff, hog_coeff, hof_coeff, mbhx_coeff, mbhy_coeff)
 
     X = [];
 
@@ -13,11 +13,11 @@ function [X] = compute_fv(fold_num, fs, s, traj_means, traj_covariances, traj_pr
         mbhx = rootsift(data(:, 235:330));
         mbhy = rootsift(data(:, 331:end));
         
-        traj = perform_pca(traj, 15);
-        hog = perform_pca(hog, 48);
-        hof = perform_pca(hof, 54);
-        mbhx = perform_pca(mbhx, 48);
-        mbhy = perform_pca(mbhy, 48);
+        traj = traj * traj_coeff;
+        hog = hog * hog_coeff;
+        hof = hof * hof_coeff;
+        mbhx = mbhx * mbhx_coeff;
+        mbhy = mbhy * mbhy_coeff;
         
         traj_fv = powernorm(vl_fisher(traj', traj_means, traj_covariances, traj_priors));
         hog_fv = powernorm(vl_fisher(hog', hog_means, hog_covariances, hog_priors));
