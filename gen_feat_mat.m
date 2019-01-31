@@ -17,6 +17,12 @@ function [X_traj, X_hog, X_hof, X_mbhx, X_mbhy] = gen_feat_mat(fold_num, fs)
         hof = rootsift(X_s(:, 127:234));
         mbhx = rootsift(X_s(:, 235:330));
         mbhy = rootsift(X_s(:, 331:end));
+        
+        traj = perform_pca(traj, 15);
+        hog = perform_pca(hog, 48);
+        hof = perform_pca(hof, 54);
+        mbhx = perform_pca(mbhx, 48);
+        mbhy = perform_pca(mbhy, 48);
 
         X_traj = [X_traj; traj];
         X_hog = [X_hog; hog];
