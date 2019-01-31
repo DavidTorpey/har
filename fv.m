@@ -23,8 +23,8 @@ for i = 1:N
     [mbhx_means, mbhx_covariances, mbhx_priors] = compute_gmm(X_mbhx, 256);
     [mbhy_means, mbhy_covariances, mbhy_priors] = compute_gmm(X_mbhy, 256);
     
-    compute_fv(i, train_files, 'train', traj_means, traj_covariances, traj_priors, hog_means, hog_covariances, hog_priors, hof_means, hof_covariances, hof_priors, mbhx_means, mbhx_covariances, mbhx_priors, mbhy_means, mbhy_covariances, mbhy_priors);
+    compute_fv(i, train_files, 'train', traj_means, traj_covariances, traj_priors, hog_means, hog_covariances, hog_priors, hof_means, hof_covariances, hof_priors, mbhx_means, mbhx_covariances, mbhx_priors, mbhy_means, mbhy_covariances, mbhy_priors, traj_coeff, hog_coeff, hof_coeff, mbhx_coeff, mbhy_coeff);
 
-    compute_fv(i, test_files, 'test', traj_means, traj_covariances, traj_priors, hog_means, hog_covariances, hog_priors, hof_means, hof_covariances, hof_priors, mbhx_means, mbhx_covariances, mbhx_priors, mbhy_means, mbhy_covariances, mbhy_priors);
+    compute_fv(i, test_files, 'test', traj_means, traj_covariances, traj_priors, hog_means, hog_covariances, hog_priors, hof_means, hof_covariances, hof_priors, mbhx_means, mbhx_covariances, mbhx_priors, mbhy_means, mbhy_covariances, mbhy_priors, traj_coeff, hog_coeff, hof_coeff, mbhx_coeff, mbhy_coeff);
     
 end
