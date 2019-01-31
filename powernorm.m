@@ -1,5 +1,5 @@
 function [v] = powernorm(v)
 
-    v = sign(v) .* sqrt(abs(v))
+    v = sign(v) .* sqrt(abs(v));
 
 end
