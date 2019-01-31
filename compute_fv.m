@@ -33,7 +33,7 @@ function [X] = compute_fv(fold_num, fs, s, traj_means, traj_covariances, traj_pr
         
         encoding = [traj_fv; hog_fv; hof_fv; mbhx_fv; mbhy_fv];
         
-        save(strcat('/scratch/dtorpey/UCFSports/FVs/loocv/fold_', num2str(fold_num), '/', s, '_', fn, '.mat'), 'encoding');
+        save(strcat('/scratch/dtorpey/UCFSports/har-matlab/loocv/fold_', num2str(fold_num), '/', s, '_', fn, '.mat'), 'encoding');
     end
 
 end
