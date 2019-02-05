@@ -2,6 +2,8 @@ import numpy as np
 from glob import glob
 from scipy.io import loadmat as lm
 from sklearn.svm import LinearSVC as svm
+from sklearn.svm import SVC
+from sklearn.externals import joblib
 import sys
 
 def norm(v):
@@ -30,15 +32,18 @@ ii = int(sys.argv[1])
 accs = []
 for i in range(1, ii+1):
 	fs = glob('loocv/fold_' + str(i) + '/train*')
-	X_tr = np.array([norm(lm(e)['encoding'].ravel()) for e in fs])
+	X_tr = np.array([lm(e)['encoding'].ravel() for e in fs])
 	Y_tr = np.array([get_action(e) for e in fs])
 	fs = glob('loocv/fold_' + str(i) + '/test*')
-	X_te = np.array([norm(lm(e)['encoding'].ravel()) for e in fs])
+	X_te = np.array([lm(e)['encoding'].ravel() for e in fs])
 	Y_te = np.array([get_action(e) for e in fs])
 	
 	
-	m = svm().fit(X_tr, Y_tr)
+	m = SVC(kernel='linear', probability=True).fit(X_tr, Y_tr)
 	acc = m.score(X_te, Y_te)
+
+	joblib.dump(m, 'loocv/fold_{}/svm.sav'.format(i))
+	np.save('loocv/fold_{}/prob.npy'.format(i), m.predict_proba(X_te)[0])
 
 	print i, acc
 
