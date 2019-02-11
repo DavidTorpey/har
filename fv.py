@@ -159,7 +159,7 @@ def load_data(fs):
 def get_action(f):
     actions = ['boxing', 'handclapping', 'handwaving', 'walking', 'jogging', 'running']
     for e in actions:
-        if e.lower in f.lower():
+        if e.lower() in f.lower():
             return e
 
 def test():
