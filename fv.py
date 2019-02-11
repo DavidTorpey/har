@@ -163,7 +163,7 @@ def get_action(f):
             return e
 
 def test():
-    train_files = glob('idt/train*')
+    train_files = glob('fvs/train*')
     xtr = []
     ytr = []
     for f in train_files:
@@ -173,7 +173,7 @@ def test():
     xtr = np.array(xtr)
     ytr = np.array(ytr)
     
-    test_files = glob('idt/test*')
+    test_files = glob('fvs/test*')
     xte = []
     yte = []
     for f in test_files:
@@ -185,7 +185,7 @@ def test():
     
     svm = LinearSVC().fit(xtr, ytr)
     print svm.score(xte, yte)
-    print classification_report(yte, m.predict(xte))
+    print classification_report(yte, svm.predict(xte))
 
 train_ppl = list(np.load('train_ppl.npy'))
 test_ppl = list(np.load('test_ppl.npy'))
