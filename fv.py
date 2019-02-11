@@ -2,6 +2,8 @@ from glob import glob
 from sklearn.mixture import GMM
 from sklearn.decomposition import PCA
 from sklearn.externals import joblib
+from sklearn.svm import LinearSVC
+from sklearn.metrics import classification_report
 import numpy as np
 
 def powernorm(x):
@@ -154,6 +156,37 @@ def load_data(fs):
         m[f] = x
     return m
 
+def get_action(f):
+    actions = ['boxing', 'handclapping', 'handwaving', 'walking', 'jogging', 'running']
+    for e in actions:
+        if e.lower in f.lower():
+            return e
+
+def test():
+    train_files = glob('idt/train*')
+    xtr = []
+    ytr = []
+    for f in train_files:
+        fishvec = np.load(f)
+        xtr.append(fishvec)
+        ytr.append(get_action(f))
+    xtr = np.array(xtr)
+    ytr = np.array(ytr)
+    
+    test_files = glob('idt/test*')
+    xte = []
+    yte = []
+    for f in test_files:
+        fishvec = np.load(f)
+        xte.append(fishvec)
+        yte.append(get_action(f))
+    xte = np.array(xte)
+    yte = np.array(yte)
+    
+    svm = LinearSVC().fit(xtr, ytr)
+    print svm.score(xte, yte)
+    print classification_report(yte, m.predict(xte))
+
 train_ppl = list(np.load('train_ppl.npy'))
 test_ppl = list(np.load('test_ppl.npy'))
 
@@ -163,8 +196,8 @@ test_files = [e for e in files if e.split('/')[-1].split('_')[0] in test_ppl]
 
 print len(train_files), len(test_files)
 
-tr_data_map = load_data(train_files)
-te_data_map = load_data(test_files)
+#tr_data_map = load_data(train_files)
+#te_data_map = load_data(test_files)
 
 
 #X_tr = get_blob(tr_data_map)
@@ -172,5 +205,7 @@ te_data_map = load_data(test_files)
 #print 'Training GMM'
 #train_gmm(X_tr)
 
-compute_fvs(tr_data_map, train=True)
-compute_fvs(te_data_map, train=False)
+#compute_fvs(tr_data_map, train=True)
+#compute_fvs(te_data_map, train=False)
+
+test()
